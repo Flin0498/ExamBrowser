@@ -1,0 +1,18 @@
+{
+  "questions": [
+    {
+      "title": "Sample from JSON",
+      "type": "SINGLE_CHOICE",
+      "stemText": "2 + 2 equals?",
+      "payload": {
+        "options": [
+          { "id": "a", "label": "A", "content": { "type": "doc", "content": [{ "type": "paragraph", "content": [{ "type": "text", "text": "3" }] }] } },
+          { "id": "b", "label": "B", "content": { "type": "doc", "content": [{ "type": "paragraph", "content": [{ "type": "text", "text": "4" }] }] } }
+        ]
+      },
+      "answerKey": { "correctOptionId": "b" },
+      "scoring": { "mode": "all_or_nothing", "maxPoints": 1 },
+      "courseNames": ["Computer Architecture (D1)"]
+    }
+  ]
+}

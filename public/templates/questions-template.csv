@@ -1,0 +1,4 @@
+title,type,stem,optionA,optionB,optionC,optionD,correct,maxPoints,courses
+Sample MCQ,SINGLE_CHOICE,Which layer is HTTP?,Application,Transport,Network,Physical,A,1,Computer Architecture (D1)
+Sample T/F,TRUE_FALSE,UDP is connectionless.,,,,,true,1,
+Sample fill,FILL_BLANK,Binary of 0x3C is 0b____,,,,,00111100,1,
