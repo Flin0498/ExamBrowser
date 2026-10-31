@@ -355,4 +355,6 @@ npm test
 
 ## License
 
-Private course tool unless you add a `LICENSE` file.
+[MIT](LICENSE) © 2026 Flin0498
+
+和本账号其他仓库一样：代码可按 MIT 使用；真实题库、学生名单不在本仓库里。
