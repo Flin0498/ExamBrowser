@@ -1,9 +1,9 @@
 # ExamBrowser
 
-[![Next.js](https://img.shields.io/badge/Next.js-16-000?style=flat-square&logo=nextdotjs&logoColor=white)](#)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169e1?style=flat-square&logo=postgresql&logoColor=white)](#)
-[![Prisma](https://img.shields.io/badge/ORM-Prisma-2d3748?style=flat-square)](#)
-[![Auth](https://img.shields.io/badge/Auth-Auth.js-000?style=flat-square)](#)
+[![Next.js](https://img.shields.io/badge/Next.js-16-3776ab?style=flat-square&logo=nextdotjs&logoColor=white)](#)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-555?style=flat-square&logo=postgresql&logoColor=white)](#)
+[![Prisma](https://img.shields.io/badge/ORM-Prisma-2a4a6b?style=flat-square)](#)
+[![Auth](https://img.shields.io/badge/Auth-Auth.js-0b6?style=flat-square)](#)
 
 [English](#english) | [简体中文](#简体中文)
 
