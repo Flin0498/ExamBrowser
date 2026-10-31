@@ -1,0 +1,206 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  TEACHER
+  STUDENT
+}
+
+enum QuestionType {
+  SINGLE_CHOICE
+  MULTIPLE_CHOICE
+  TRUE_FALSE
+  FILL_BLANK
+  MATCHING_SLOTS
+}
+
+enum AttemptStatus {
+  IN_PROGRESS
+  SUBMITTED
+}
+
+enum AnswerCompletion {
+  EMPTY
+  PARTIAL
+  COMPLETE
+}
+
+model User {
+  id           String    @id @default(cuid())
+  username     String    @unique
+  name         String
+  studentNo    String?   @unique
+  classGroup   String?
+  passwordHash String
+  role         Role
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  courses      Course[]  @relation("CourseOwner")
+  categories   Category[] @relation("CategoryOwner")
+  questions    Question[] @relation("QuestionOwner")
+  attempts     Attempt[]
+  examEnrollments ExamEnrollment[]
+}
+
+model Course {
+  id          String           @id @default(cuid())
+  name        String
+  description String?
+  ownerId     String
+  owner       User             @relation("CourseOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  questions   QuestionCourse[]
+  exams       Exam[]
+}
+
+model Category {
+  id        String             @id @default(cuid())
+  name      String
+  ownerId   String
+  owner     User               @relation("CategoryOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+  questions QuestionCategory[]
+}
+
+model Question {
+  id          String             @id @default(cuid())
+  sortOrder   Int                @default(0)
+  title       String
+  type        QuestionType
+  stem        Json
+  payload     Json
+  answerKey   Json
+  scoring     Json
+  ownerId     String
+  owner       User               @relation("QuestionOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+  courses     QuestionCourse[]
+  categories  QuestionCategory[]
+  examLinks   ExamQuestion[]
+}
+
+model QuestionCourse {
+  questionId String
+  courseId   String
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  course     Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@id([questionId, courseId])
+}
+
+model QuestionCategory {
+  questionId String
+  categoryId String
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([questionId, categoryId])
+}
+
+model Exam {
+  id                 String         @id @default(cuid())
+  courseId           String
+  course             Course         @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  title              String
+  description        String?
+  startAt            DateTime
+  endAt              DateTime
+  timeLimitMinutes   Int?
+  passingGrade       Float          @default(50)
+  maxGrade           Float          @default(100)
+  maxAttempts        Int            @default(1)
+  quizPassword       String?
+  allowQuestionJump  Boolean        @default(true)
+  allowGoBack        Boolean        @default(true)
+  allowReview        Boolean        @default(true)
+  shuffleQuestions   Boolean        @default(false)
+  shuffleOptions     Boolean        @default(false)
+  restrictStudents   Boolean        @default(false)
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+  questions          ExamQuestion[]
+  attempts           Attempt[]
+  enrollments        ExamEnrollment[]
+}
+
+model ExamEnrollment {
+  examId    String
+  studentId String
+  exam      Exam @relation(fields: [examId], references: [id], onDelete: Cascade)
+  student   User @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@id([examId, studentId])
+  @@index([studentId])
+}
+
+model ExamQuestion {
+  id         String   @id @default(cuid())
+  examId     String
+  exam       Exam     @relation(fields: [examId], references: [id], onDelete: Cascade)
+  questionId String?
+  question   Question? @relation(fields: [questionId], references: [id], onDelete: SetNull)
+  sortOrder  Int
+  maxPoints  Float
+  snapshot   Json
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([examId, sortOrder])
+}
+
+model Attempt {
+  id              String            @id @default(cuid())
+  examId          String
+  exam            Exam              @relation(fields: [examId], references: [id], onDelete: Cascade)
+  studentId       String
+  student         User              @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  status          AttemptStatus     @default(IN_PROGRESS)
+  startedAt       DateTime          @default(now())
+  submittedAt     DateTime?
+  totalScore      Float?
+  maxScore        Float?
+  currentIndex    Int               @default(0)
+  furthestIndex   Int               @default(0)
+  lockedThrough   Int               @default(-1)
+  questions       AttemptQuestion[]
+  answers         AttemptAnswer[]
+
+  @@index([examId, studentId])
+}
+
+model AttemptQuestion {
+  id        String          @id @default(cuid())
+  attemptId String
+  attempt   Attempt         @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  sortOrder Int
+  maxPoints Float
+  snapshot  Json
+  answers   AttemptAnswer[]
+
+  @@unique([attemptId, sortOrder])
+}
+
+model AttemptAnswer {
+  id                String             @id @default(cuid())
+  attemptId         String
+  attempt           Attempt            @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  attemptQuestionId String
+  attemptQuestion   AttemptQuestion    @relation(fields: [attemptQuestionId], references: [id], onDelete: Cascade)
+  response          Json
+  completion        AnswerCompletion   @default(EMPTY)
+  score             Float              @default(0)
+  partScores        Json               @default("[]")
+  gradedAt          DateTime?
+  manualOverride    Boolean            @default(false)
+
+  @@unique([attemptId, attemptQuestionId])
+}
