@@ -1,15 +1,15 @@
 # ExamBrowser
 
-[![Next.js](https://img.shields.io/badge/Next.js-16-3776ab?style=flat-square&logo=nextdotjs&logoColor=white)](#)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-555?style=flat-square&logo=postgresql&logoColor=white)](#)
-[![Prisma](https://img.shields.io/badge/ORM-Prisma-2a4a6b?style=flat-square)](#)
-[![Auth](https://img.shields.io/badge/Auth-Auth.js-0b6?style=flat-square)](#)
+![Next.js](https://img.shields.io/badge/Next.js-16-3776ab?style=flat-square&logo=nextdotjs&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-555?style=flat-square&logo=postgresql&logoColor=white)
+![Prisma](https://img.shields.io/badge/ORM-Prisma-2a4a6b?style=flat-square)
+![Auth](https://img.shields.io/badge/Auth-Auth.js-0b6?style=flat-square)
 
 [English](#english) | [简体中文](#简体中文)
 
 ---
 
-<a id="english"></a>
+
 
 ## English
 
@@ -66,7 +66,7 @@ cp .env.example .env
 
 Open `.env` in a text editor. It has three lines. Change **only** these two:
 
-**`AUTH_SECRET`** — login-session signing key. Replace the placeholder `change-me-to-a-long-random-string` with a new random value (32+ characters). Generate one, then paste it:
+`AUTH_SECRET` — login-session signing key. Replace the placeholder `change-me-to-a-long-random-string` with a new random value (32+ characters). Generate one, then paste it:
 
 ```bash
 # PowerShell
@@ -84,7 +84,7 @@ AUTH_SECRET="k8Qm2nR4pX...your-own-string...9fL"
 
 Leave it as the placeholder and sign-in cookies will be insecure (and may break if two people share the same default).
 
-**`NEXTAUTH_URL`** — leave `http://localhost:xxx` for now. You will replace `xxx` after `npm run dev` prints the real port.
+`NEXTAUTH_URL` — leave `http://localhost:xxx` for now. You will replace `xxx` after `npm run dev` prints the real port.
 
 Then:
 
@@ -183,7 +183,7 @@ The **user manual is this README** (sections 3–4), same approach as other smal
 
 ---
 
-<a id="简体中文"></a>
+
 
 ## 简体中文
 
@@ -234,7 +234,7 @@ cp .env.example .env
 
 用记事本 / VS Code 打开项目根目录的 `.env`，一共三行，需要改其中两处：
 
-**`AUTH_SECRET`（登录会话密钥）**  
+`AUTH_SECRET`**（登录会话密钥）**  
 把等号右边的占位文字 `change-me-to-a-long-random-string` **整段删掉**，换成你自己生成的一串随机字符（建议 32 位以上）。在终端生成后复制进去即可：
 
 ```bash
@@ -253,7 +253,7 @@ AUTH_SECRET="k8Qm2nR4pX......你自己的那一串......9fL"
 
 不要留着示例原文。这串字用来给登录 Cookie 签名，每人 / 每台机器各写一份即可，不必记住。
 
-**`NEXTAUTH_URL`**  
+`NEXTAUTH_URL`  
 先保持 `http://localhost:xxx`。等下面 `npm run dev` 打出真实端口后再改 `xxx`。
 
 然后执行：
@@ -350,11 +350,3 @@ npm test
 ### 7. 文档说明
 
 **使用手册已写在本 README**（第 3–4 节），与本账号其他小型仓库一致。
-
----
-
-## License
-
-[MIT](LICENSE) © 2026 Flin0498
-
-和本账号其他仓库一样：代码可按 MIT 使用；真实题库、学生名单不在本仓库里。
